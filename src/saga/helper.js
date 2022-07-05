@@ -8,23 +8,19 @@ export const getPosts = async () => {
   }
 };
 
-export const fakeCallApi = async () => {
-  console.log("[API START]");
+export const fakeCallApi = async (props) => {
   const apiCallingPromise = new Promise((resolve) => {
-    resolve("api is called");
+    resolve(props);
   });
 
-  await apiCallingPromise.then(async (res) => {
-    const logger_response = await logger(res, 2000);
-    console.log("logger_response", logger_response);
-    return logger_response;
+  const promiseRes = await apiCallingPromise.then(async (res) => {
+    const logger_responsed = await logger(res);
+    return logger_responsed;
   });
+  console.log("[API IS CALLED]");
+  return promiseRes;
 };
 
-export const logger = async (text, time) => {
-  const result = await setTimeout(() => {
-    const emptyData = { data: [] };
-    return emptyData;
-  }, time);
+export const logger = async (result) => {
   return result;
 };

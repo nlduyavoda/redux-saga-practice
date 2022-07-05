@@ -1,15 +1,16 @@
-import { createStore, applyMiddleware, compose } from "redux";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
-import CartSaga from "./saga";
 import rootReducer from "./reducer";
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+import CartSaga from "./saga";
 
 const sagaMiddleware = createSagaMiddleware();
-const store = createStore(
-  rootReducer,
-  composeEnhancers(applyMiddleware(sagaMiddleware))
-);
+const middleware = [...getDefaultMiddleware({ thunk: false }), sagaMiddleware];
+
+const store = configureStore({
+  reducer: rootReducer,
+  middleware,
+});
+
 sagaMiddleware.run(CartSaga);
 
 export default store;

@@ -1,4 +1,8 @@
-form {
+.form {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    &-field {
+        width: 100%;
+        margin-bottom: 20px;
+    }
 }

@@ -1,26 +1,40 @@
-import { takeLatest, call, put, delay } from "redux-saga/effects"; // effect
-import { getPosts, fakeCallApi } from "./helper"; //helper
-import { GET_POSTS, POST_FORM_VALUES, getPostsSuccess } from "./action";
+import { call, delay, put, takeLatest } from "redux-saga/effects"; // effect
+import {
+  SAGA_EDIT_FORM_INTEREST,
+  SAGA_EDIT_FORM_MEDIAS,
+  SAGA_EDIT_FORM_TITLE,
+} from "./action";
+import { fakeCallApi } from "./helper"; //helper
+import { formSlice } from "./reducer";
 
-function* onGetPosts(props) {
-  console.log("props :>> ", props);
-  const response = yield call(fakeCallApi); // call HELPER
-  yield put(getPostsSuccess(response));
-}
-function* onPostFormValues(props) {
-  console.log("[SAGA-START]");
-  yield delay(3000);
-  const api_responsed = yield call(fakeCallApi); // call HELPER
-  console.log("api_responsed :>> ", api_responsed);
-  yield put({
-    type: POST_FORM_VALUES,
-    payload: api_responsed,
+function* onEditFormTitle({ payload, type }) {
+  yield delay(1000);
+  const apiRes = yield call(() => {
+    return fakeCallApi(payload);
   });
+  yield put(formSlice.actions.editTitle(apiRes));
+}
+
+function* onEditFormInterests({ payload, type }) {
+  yield delay(1000);
+  const apiRes = yield call(() => {
+    return fakeCallApi(payload);
+  });
+  yield put(formSlice.actions.editInterests(apiRes));
+}
+
+function* onEditFormMedias({ payload, type }) {
+  yield delay(1000);
+  const apiRes = yield call(() => {
+    return fakeCallApi(payload);
+  });
+  yield put(formSlice.actions.editMedias(apiRes));
 }
 
 function* CartSaga() {
-  console.log("saga throw");
-  yield takeLatest(POST_FORM_VALUES, onPostFormValues);
+  yield takeLatest(SAGA_EDIT_FORM_TITLE, onEditFormTitle);
+  yield takeLatest(SAGA_EDIT_FORM_INTEREST, onEditFormInterests);
+  yield takeLatest(SAGA_EDIT_FORM_MEDIAS, onEditFormMedias);
 }
 
 export default CartSaga;

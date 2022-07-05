@@ -1,27 +1,30 @@
 import { combineReducers } from "redux";
+import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  posts: [],
-  post: {},
-  loadingPosts: false,
-  loadingPostDetails: false,
-  error: {
-    message: "",
+export const formSlice = createSlice({
+  name: "form",
+  initialState: {
+    title: "",
+    interests: [],
+    medias: [],
   },
-};
+  reducers: {
+    editTitle: (state, { payload, type }) => {
+      return { ...state, title: payload };
+    },
+    editInterests: (state, { payload, type }) => {
+      const interests = [payload, ...state.interests];
+      return { ...state, interests: interests };
+    },
+    editMedias: (state, { payload, type }) => {
+      const medias = [payload, ...state.medias];
+      return { ...state, medias: medias };
+    },
+  },
+});
 
-const PostReducer = (state = initialState, { payload }) => {
-  console.log("reducer throw");
-
-  let newState = { ...state };
-  newState = {
-    ...newState,
-    posts: payload,
-  };
-  return newState;
-};
 const rootReducer = combineReducers({
-  PostReducer,
+  formValues: formSlice.reducer,
 });
 
 export default rootReducer;
