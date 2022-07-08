@@ -17,7 +17,11 @@ export const formSlice = createSlice({
       return { ...state, interests: interests };
     },
     editMedias: (state, { payload, type }) => {
-      const medias = [payload, ...state.medias];
+      const medias = [...payload];
+      return { ...state, medias: medias };
+    },
+    addMedias: (state, { payload, type }) => {
+      const medias = [...payload];
       return { ...state, medias: medias };
     },
   },

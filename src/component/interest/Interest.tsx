@@ -18,15 +18,14 @@ export default function Interests({ onChange }: any) {
     },
   ];
   return (
-    <div>
+    <div className="interests">
       <Stack spacing={3} sx={{ width: 500 }}>
         <Autocomplete
           multiple
           id="tags-outlined"
           options={top100Films}
-          getOptionLabel={({ title, year }: { title: string; year: number }) =>
-            title
-          }
+          getOptionLabel={({ title }: { title: string; year: number }) => title}
+          isOptionEqualToValue={(option, value) => option.title === value.title}
           defaultValue={[top100Films[1]]}
           filterSelectedOptions
           onChange={(e, value) => onChange(value)}

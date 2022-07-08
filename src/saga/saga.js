@@ -3,6 +3,7 @@ import {
   SAGA_EDIT_FORM_INTEREST,
   SAGA_EDIT_FORM_MEDIAS,
   SAGA_EDIT_FORM_TITLE,
+  SAGA_ADD_MEDIAS,
 } from "./action";
 import { fakeCallApi } from "./helper"; //helper
 import { formSlice } from "./reducer";
@@ -31,10 +32,19 @@ function* onEditFormMedias({ payload, type }) {
   yield put(formSlice.actions.editMedias(apiRes));
 }
 
+function* onAddFormMedias({ payload, type }) {
+  yield delay(1000);
+  const apiRes = yield call(() => {
+    return fakeCallApi(payload);
+  });
+  yield put(formSlice.actions.addMedias(apiRes));
+}
+
 function* CartSaga() {
   yield takeLatest(SAGA_EDIT_FORM_TITLE, onEditFormTitle);
   yield takeLatest(SAGA_EDIT_FORM_INTEREST, onEditFormInterests);
   yield takeLatest(SAGA_EDIT_FORM_MEDIAS, onEditFormMedias);
+  yield takeLatest(SAGA_ADD_MEDIAS, onAddFormMedias);
 }
 
 export default CartSaga;

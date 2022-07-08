@@ -4,13 +4,16 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  SAGA_ADD_MEDIAS,
   SAGA_EDIT_FORM_INTEREST,
   SAGA_EDIT_FORM_MEDIAS,
   SAGA_EDIT_FORM_TITLE,
 } from "../../saga/action";
 import Interests from "../interest/Interest";
 import Medias from "../Medias";
+import { medias } from "../../util";
 import "./index.scss";
+import { MediasType } from "../Medias/type";
 
 export default function Form(props: { params: string | null }) {
   const dispatch = useDispatch();
@@ -37,22 +40,27 @@ export default function Form(props: { params: string | null }) {
     return value;
   };
 
-  const handleChangeMedias = (value: string) => {
+  const handleChangeMedias = (value: MediasType[]) => {
+    console.log("value :>> ", value);
     dispatch({
       type: SAGA_EDIT_FORM_MEDIAS,
       payload: value,
     });
-    return value;
+    setFormValue({ ...formValue, medias: value });
+  };
+
+  const handleAddMedias = () => {
+    dispatch({
+      type: SAGA_ADD_MEDIAS,
+      payload: medias,
+    });
   };
 
   useEffect(() => {
     setFormValue(selector);
   }, [selector]);
-
-  console.log("formValue :>> ", formValue);
-
   return (
-    <div>
+    <div className="form-container">
       <h1>{props.params ? "EDIT" : "CREATE"}</h1>
       <form className="form" id="myForm" onSubmit={(e) => handleSubmit(e)}>
         <div className="form-field">
@@ -68,19 +76,13 @@ export default function Form(props: { params: string | null }) {
         <div className="form-field">
           <Interests onChange={handleChangeInterests} />
         </div>
-        {/* <div className="form-field">
-          <label>medias: </label>
-          <input
-            type="text"
-            name="medias"
-            onChange={
-              (e) => handleChangeMedias(e.target.value) // [TODO]:
-            }
-          />
-        </div> */}
         <div className="form-field">
           <label>Medias: </label>
-          <Medias />
+          <Medias
+            onAdd={handleAddMedias}
+            onChange={handleChangeMedias}
+            mockMedias={formValue.medias}
+          />
         </div>
       </form>
     </div>

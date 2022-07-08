@@ -1,8 +1,11 @@
-.form {
+.form-container {
+  width: 100%;
+  .form {
     display: flex;
     flex-wrap: wrap;
     &-field {
-        width: 100%;
-        margin-bottom: 20px;
+      width: 100%;
+      margin-bottom: 20px;
     }
+  }
 }

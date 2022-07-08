@@ -1,8 +1,8 @@
 import * as React from "react";
 import "./index.scss";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { videoImage, medias } from "../../util";
-export default function Meidas() {
+import { MediasType } from "./type";
+export default function Meidas({ onChange, mockMedias, onAdd }: any) {
   function onDragEnd(selectedMedia: any) {
     if (!selectedMedia.destination) {
       return;
@@ -12,60 +12,66 @@ export default function Meidas() {
       return;
     }
     const reorder = (medias: any, startIdx: any, endIdx: any) => {
-      const [removed] = medias.splice(startIdx, 1);
-      medias.splice(endIdx, 0, removed);
-      return medias;
+      const oldMedias = [...medias];
+      console.log("object :>> ", {
+        medias: medias,
+        start: startIdx,
+        end: endIdx,
+      });
+      const [removed] = oldMedias.splice(startIdx, 1);
+      oldMedias.splice(endIdx, 0, removed);
+      return oldMedias;
     };
 
     const result = reorder(
-      medias,
+      mockMedias,
       selectedMedia.source.index,
       selectedMedia.destination.index
     );
-    console.log("result :>> ", result);
-    // onChangeMedias("edit", quotes);
+    onChange(result);
   }
-
   return (
     <div className="medias">
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
             <>
-              <div ref={provided.innerRef} {...provided.droppableProps}>
-                {medias?.map((media, idx) => (
-                  <Draggable key={media.id} draggableId={media.id} index={idx}>
-                    {(provided) => {
-                      return (
-                        <div
-                          className="media"
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                        >
-                          <div className="media-video">
-                            <img src={videoImage} alt="media" />
+              <div
+                className="dropable-medias"
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
+                {mockMedias.length ? (
+                  mockMedias.map((media: MediasType, idx: any) => (
+                    <Draggable
+                      key={media.id}
+                      draggableId={media.id}
+                      index={idx}
+                    >
+                      {(provided) => {
+                        return (
+                          <div
+                            className="media"
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                          >
+                            <div className="media-video">
+                              <img src={media.image} alt="media" />
+                            </div>
+                            <div className="media-infor">
+                              information with id: {media.id}
+                            </div>
                           </div>
-                          <div className="media-infor">
-                            information with id: {media.id}
-                          </div>
-                        </div>
-                      );
-                    }}
-                  </Draggable>
-                ))}
+                        );
+                      }}
+                    </Draggable>
+                  ))
+                ) : (
+                  <EmptyMedias onAdd={onAdd} />
+                )}
                 {provided.placeholder}
               </div>
-              {/* {medias.map((media: any, idx: number) => {
-                return (
-                  <div className="media">
-                    <div className="media-video">
-                      <img src={videoImage} alt="media" />
-                    </div>
-                    <div className="media-infor">information</div>
-                  </div>
-                );
-              })} */}
             </>
           )}
         </Droppable>
@@ -73,3 +79,13 @@ export default function Meidas() {
     </div>
   );
 }
+
+const EmptyMedias = ({ onAdd }: any) => {
+  return (
+    <div className="empty-medias">
+      <div className="btn-add-medias">
+        <button onClick={onAdd}>add medias</button>
+      </div>
+    </div>
+  );
+};
