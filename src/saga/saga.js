@@ -4,15 +4,17 @@ import {
   SAGA_EDIT_FORM_MEDIAS,
   SAGA_EDIT_FORM_TITLE,
   SAGA_ADD_MEDIAS,
-} from "./action";
+} from "utils";
 import { fakeCallApi } from "./helper"; //helper
 import { formSlice } from "./reducer";
 
 function* onEditFormTitle({ payload, type }) {
   yield delay(1000);
+  //call api
   const apiRes = yield call(() => {
     return fakeCallApi(payload);
   });
+  console.log("formSlice.actions :>> ", formSlice);
   yield put(formSlice.actions.editTitle(apiRes));
 }
 

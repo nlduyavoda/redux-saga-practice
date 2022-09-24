@@ -13,11 +13,6 @@ export default function Meidas({ onChange, mockMedias, onAdd }: any) {
     }
     const reorder = (medias: any, startIdx: any, endIdx: any) => {
       const oldMedias = [...medias];
-      console.log("object :>> ", {
-        medias: medias,
-        start: startIdx,
-        end: endIdx,
-      });
       const [removed] = oldMedias.splice(startIdx, 1);
       oldMedias.splice(endIdx, 0, removed);
       return oldMedias;

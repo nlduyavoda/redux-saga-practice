@@ -26,3 +26,7 @@ export const medias = [
     descriptions: "information",
   },
 ];
+export const SAGA_EDIT_FORM_TITLE = "SAGA_EDIT_FORM_TITLE";
+export const SAGA_EDIT_FORM_INTEREST = "SAGA_EDIT_FORM_INTEREST";
+export const SAGA_EDIT_FORM_MEDIAS = "SAGA_EDIT_FORM_MEDIAS";
+export const SAGA_ADD_MEDIAS = "SAGA_ADD_MEDIAS";

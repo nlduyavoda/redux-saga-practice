@@ -1,6 +1,11 @@
 {
   "compilerOptions": {
     "jsx": "react",
+    "baseUrl": "src",
+    "paths": {
+      "saga/*": ["saga/*"],
+      "utils/*": ["utils/*"]
+    },
     "module": "commonjs",
     "noImplicitAny": true,
     "outDir": "./build/",

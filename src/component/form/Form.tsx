@@ -3,15 +3,15 @@ import * as React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Interests from "../interest/Interest";
+import Medias from "../Medias";
 import {
+  medias,
   SAGA_ADD_MEDIAS,
   SAGA_EDIT_FORM_INTEREST,
   SAGA_EDIT_FORM_MEDIAS,
   SAGA_EDIT_FORM_TITLE,
-} from "../../saga/action";
-import Interests from "../interest/Interest";
-import Medias from "../Medias";
-import { medias } from "../../util";
+} from "../../utils";
 import "./index.scss";
 import { MediasType } from "../Medias/type";
 
@@ -41,7 +41,6 @@ export default function Form(props: { params: string | null }) {
   };
 
   const handleChangeMedias = (value: MediasType[]) => {
-    console.log("value :>> ", value);
     dispatch({
       type: SAGA_EDIT_FORM_MEDIAS,
       payload: value,
